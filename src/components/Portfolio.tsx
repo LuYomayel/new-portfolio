@@ -14,7 +14,6 @@ export default function Portfolio() {
   const [hoveredSkill, setHoveredSkill] = useState<null | string>(null)
   const [isIntersecting, setIsIntersecting] = useState(false)
   const intersectionRef = useRef(null)
-  const [headerHeight, setHeaderHeight] = useState(0)
   const headerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -25,6 +24,7 @@ export default function Portfolio() {
       { threshold: 0.1 }
     )
 
+    console.log(hoveredSkill)
     if (intersectionRef.current) {
       observer.observe(intersectionRef.current)
     }
@@ -33,12 +33,6 @@ export default function Portfolio() {
       if (intersectionRef.current) {
         observer.unobserve(intersectionRef.current)
       }
-    }
-  }, [])
-
-  useEffect(() => {
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight)
     }
   }, [])
 
