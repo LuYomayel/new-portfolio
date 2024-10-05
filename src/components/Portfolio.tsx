@@ -84,19 +84,19 @@ export default function Portfolio() {
     },
   ]
 
-  const [headerHeight, setHeaderHeight] = useState(0)
-  const headerRef = useRef<HTMLElement>(null)
+  // const [headerHeight, setHeaderHeight] = useState(0)
+  // const headerRef = useRef<HTMLElement>(null)
 
-  useEffect(() => {
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (headerRef.current) {
+  //     setHeaderHeight(headerRef.current.offsetHeight)
+  //   }
+  // }, [])
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-800 font-sans">
       {/* Header */}
-      <header ref={headerRef} className="fixed top-0 left-0 right-0 bg-white shadow-md z-10">
+      <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Image
