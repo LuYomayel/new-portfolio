@@ -1,0 +1,180 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "experience": "Experience",
+    "skills": "Skills",
+    "education": "Education",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "header": {
+    "name": "Luciano Yomayel",
+    "title": "Full-Stack MERN Developer | AI-Enabled Solutions",
+    "location": "Buenos Aires, Argentina",
+    "viewProject": "View Project",
+    "downloadCV": "Download CV",
+    "languageSwitch": "Cambiar a Español"
+  },
+  "about": {
+    "title": "About Me",
+    "summary": "Full-stack developer with 4+ years of experience delivering scalable web and mobile apps using React, Next.js, NestJS, and AWS. Skilled in SaaS platforms, clean architecture, and AI integrations. Looking for new opportunities in Argentina.",
+    "location": "Buenos Aires, Argentina",
+    "phone": "+54 9 11 7239 4519",
+    "email": "l.yomayel@gmail.com"
+  },
+  "experience": {
+    "title": "Work Experience",
+    "items": [
+      {
+        "role": "Lead Developer",
+        "company": "Fidelizapp",
+        "period": "Jul 2025 – Present",
+        "summary": [
+          "Built loyalty app with React admin and NestJS microservices.",
+          "Designed MySQL schema with TypeORM, implemented QR redemption and Google OAuth integration.",
+          "Website: fidelizapp.luciano-yomayel.com"
+        ]
+      },
+      {
+        "role": "Full-Stack Developer",
+        "company": "Quality Blinds Australia",
+        "period": "May 2025 – Present",
+        "summary": [
+          "Migrated legacy site to Next.js and optimized SEO for the Australian market.",
+          "Developed custom chatbot integrated with ChatGPT using contextual data.",
+          "Implemented automated email summaries of conversations using ChatGPT."
+        ]
+      },
+      {
+        "role": "Full-Stack Developer",
+        "company": "EaseTrain",
+        "period": "Jan 2024 – May 2025",
+        "summary": [
+          "Built a multi-tenant fitness coaching platform with training plans, client progress, and video uploads.",
+          "Stack: React + PrimeReact, NestJS, MySQL, WebSockets, GCS, DigitalOcean.",
+          "Implemented JWT auth, subscription flow, and CI/CD with GitHub Actions and PM2."
+        ]
+      },
+      {
+        "role": "Freelancer",
+        "company": "GJ Logística",
+        "period": "Aug 2023 – Dec 2023",
+        "summary": [
+          "Customized and configured Dolibarr ERP to manage inventory, orders and logistics."
+        ]
+      },
+      {
+        "role": "Full-Stack Developer",
+        "company": "Join Solutions",
+        "period": "Jan 2021 – Jul 2023",
+        "summary": [
+          "Led development of web apps using Angular and NestJS.",
+          "Built scalable REST APIs with Express.js.",
+          "Implemented Agile methodologies for client delivery and collaboration."
+        ]
+      },
+      {
+        "role": "Personal Project",
+        "company": "Handball Statistics Web",
+        "period": "May 2023 – Jun 2023",
+        "summary": [
+          "Developed a site to show handball stats and fair play tables.",
+          "Reached over 10,000 monthly visits."
+        ]
+      }
+    ]
+  },
+  "skills": {
+    "title": "Technical Skills",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "databases": "Databases",
+      "cloud": "Cloud & DevOps",
+      "other": "Other"
+    },
+    "items": [
+      "React",
+      "Next.js",
+      "Angular",
+      "Tailwind",
+      "PrimeReact",
+      "NestJS",
+      "Node.js",
+      "Prisma",
+      "TypeORM",
+      "MongoDB",
+      "MySQL",
+      "PostgreSQL",
+      "AWS",
+      "Google Cloud",
+      "Docker",
+      "PM2",
+      "JWT",
+      "Cypress",
+      "ChatGPT API"
+    ]
+  },
+  "education": {
+    "title": "Education",
+    "items": [
+      {
+        "title": "B.Eng. in Artificial Intelligence (In progress)",
+        "institution": "University of Palermo",
+        "period": "2024 – 2029"
+      },
+      {
+        "title": "Diploma in Information Technology",
+        "institution": "UTN Pacheco",
+        "period": "2020 – 2022"
+      }
+    ]
+  },
+  "projects": {
+    "title": "Personal Projects",
+    "items": [
+      {
+        "name": "Fidelizapp",
+        "description": "Loyalty app with React admin and NestJS microservices",
+        "url": "https://fidelizapp.luciano-yomayel.com",
+        "tech": ["React", "NestJS", "MySQL", "TypeORM"]
+      },
+      {
+        "name": "Quality Blinds Australia",
+        "description": "Website migration to Next.js with AI chatbot integration",
+        "url": "https://qualityblinds.com.au",
+        "tech": ["Next.js", "ChatGPT API", "React"],
+        "hasBeforeAfter": true
+      },
+      {
+        "name": "EaseTrain",
+        "description": "Multi-tenant fitness coaching platform",
+        "url": "https://trainease.luciano-yomayel.com",
+        "tech": ["React", "NestJS", "MySQL", "WebSockets"]
+      },
+      {
+        "name": "Handball Statistics Web",
+        "description": "Statistics and fair play tables for handball",
+        "url": "https://handball-metropolitano.luciano-yomayel.com",
+        "tech": ["React", "Node.js", "MongoDB"]
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact Me",
+    "subtitle": "Let's work together",
+    "description": "I'm always open to discussing new opportunities and interesting projects.",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "send": "Send Message"
+    }
+  },
+  "footer": {
+    "languages": "Languages: Spanish (Native), English (Fluent – 2 years in Australia)",
+    "interests": "Interests: Calisthenics, Handball, AI, Travel, Photography",
+    "rights": "© 2024 Luciano Yomayel. All rights reserved."
+  }
+}

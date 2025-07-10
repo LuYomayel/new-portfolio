@@ -1,0 +1,180 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "experience": "Experiencia",
+    "skills": "Habilidades",
+    "education": "Educación",
+    "projects": "Proyectos",
+    "contact": "Contacto"
+  },
+  "header": {
+    "name": "Luciano Yomayel",
+    "title": "Desarrollador Full-Stack MERN | Soluciones con IA",
+    "location": "Buenos Aires, Argentina",
+    "viewProject": "Ver Proyecto",
+    "downloadCV": "Descargar CV",
+    "languageSwitch": "Switch to English"
+  },
+  "about": {
+    "title": "Sobre Mí",
+    "summary": "Desarrollador full-stack con más de 4 años de experiencia entregando aplicaciones web y móviles escalables usando React, Next.js, NestJS y AWS. Especializado en plataformas SaaS, arquitectura limpia e integraciones de IA. Buscando nuevas oportunidades en Argentina.",
+    "location": "Buenos Aires, Argentina",
+    "phone": "+54 9 11 7239 4519",
+    "email": "l.yomayel@gmail.com"
+  },
+  "experience": {
+    "title": "Experiencia Laboral",
+    "items": [
+      {
+        "role": "Desarrollador Líder",
+        "company": "Fidelizapp",
+        "period": "Jul 2025 – Presente",
+        "summary": [
+          "Desarrollé app de fidelización con administrador React y microservicios NestJS.",
+          "Diseñé esquema MySQL con TypeORM, implementé redención QR e integración con Google OAuth.",
+          "Sitio web: fidelizapp.luciano-yomayel.com"
+        ]
+      },
+      {
+        "role": "Desarrollador Full-Stack",
+        "company": "Quality Blinds Australia",
+        "period": "May 2025 – Presente",
+        "summary": [
+          "Migré sitio legacy a Next.js y optimicé SEO para el mercado australiano.",
+          "Desarrollé chatbot personalizado integrado con ChatGPT usando datos contextuales.",
+          "Implementé resúmenes automáticos de conversaciones por email usando ChatGPT."
+        ]
+      },
+      {
+        "role": "Desarrollador Full-Stack",
+        "company": "EaseTrain",
+        "period": "Ene 2024 – May 2025",
+        "summary": [
+          "Construí plataforma multi-tenant para entrenamiento fitness con planes de entrenamiento, progreso de clientes y subida de videos.",
+          "Stack: React + PrimeReact, NestJS, MySQL, WebSockets, GCS, DigitalOcean.",
+          "Implementé autenticación JWT, flujo de suscripciones y CI/CD con GitHub Actions y PM2."
+        ]
+      },
+      {
+        "role": "Freelancer",
+        "company": "GJ Logística",
+        "period": "Ago 2023 – Dic 2023",
+        "summary": [
+          "Personalicé y configuré ERP Dolibarr para gestionar inventario, órdenes y logística."
+        ]
+      },
+      {
+        "role": "Desarrollador Full-Stack",
+        "company": "Join Solutions",
+        "period": "Ene 2021 – Jul 2023",
+        "summary": [
+          "Lideré desarrollo de aplicaciones web usando Angular y NestJS.",
+          "Construí APIs REST escalables con Express.js.",
+          "Implementé metodologías Agile para entrega y colaboración con clientes."
+        ]
+      },
+      {
+        "role": "Proyecto Personal",
+        "company": "Handball Statistics Web",
+        "period": "May 2023 – Jun 2023",
+        "summary": [
+          "Desarrollé sitio para mostrar estadísticas de handball y tablas de fair play.",
+          "Alcanzó más de 10,000 visitas mensuales."
+        ]
+      }
+    ]
+  },
+  "skills": {
+    "title": "Habilidades Técnicas",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "databases": "Bases de Datos",
+      "cloud": "Cloud & DevOps",
+      "other": "Otros"
+    },
+    "items": [
+      "React",
+      "Next.js",
+      "Angular",
+      "Tailwind",
+      "PrimeReact",
+      "NestJS",
+      "Node.js",
+      "Prisma",
+      "TypeORM",
+      "MongoDB",
+      "MySQL",
+      "PostgreSQL",
+      "AWS",
+      "Google Cloud",
+      "Docker",
+      "PM2",
+      "JWT",
+      "Cypress",
+      "ChatGPT API"
+    ]
+  },
+  "education": {
+    "title": "Educación",
+    "items": [
+      {
+        "title": "Ingeniería en Inteligencia Artificial (En progreso)",
+        "institution": "Universidad de Palermo",
+        "period": "2024 – 2029"
+      },
+      {
+        "title": "Diplomatura en Tecnología de la Información",
+        "institution": "UTN Pacheco",
+        "period": "2020 – 2022"
+      }
+    ]
+  },
+  "projects": {
+    "title": "Proyectos Personales",
+    "items": [
+      {
+        "name": "Fidelizapp",
+        "description": "App de fidelización con administrador React y microservicios NestJS",
+        "url": "https://fidelizapp.luciano-yomayel.com",
+        "tech": ["React", "NestJS", "MySQL", "TypeORM"]
+      },
+      {
+        "name": "Quality Blinds Australia",
+        "description": "Migración de sitio web a Next.js con integración de chatbot IA",
+        "url": "https://qualityblinds.com.au",
+        "tech": ["Next.js", "ChatGPT API", "React"],
+        "hasBeforeAfter": true
+      },
+      {
+        "name": "EaseTrain",
+        "description": "Plataforma multi-tenant para entrenamiento fitness",
+        "url": "https://trainease.luciano-yomayel.com",
+        "tech": ["React", "NestJS", "MySQL", "WebSockets"]
+      },
+      {
+        "name": "Handball Statistics Web",
+        "description": "Estadísticas y tablas de fair play para handball",
+        "url": "https://handball-metropolitano.luciano-yomayel.com",
+        "tech": ["React", "Node.js", "MongoDB"]
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Trabajemos juntos",
+    "description": "Siempre estoy abierto a discutir nuevas oportunidades y proyectos interesantes.",
+    "form": {
+      "name": "Nombre",
+      "email": "Email",
+      "message": "Mensaje",
+      "send": "Enviar Mensaje"
+    }
+  },
+  "footer": {
+    "languages": "Idiomas: Español (Nativo), Inglés (Fluido – 2 años en Australia)",
+    "interests": "Intereses: Calistenia, Handball, IA, Viajes, Fotografía",
+    "rights": "© 2024 Luciano Yomayel. Todos los derechos reservados."
+  }
+}
