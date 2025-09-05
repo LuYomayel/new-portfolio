@@ -28,12 +28,12 @@
     "items": [
       {
         "role": "Desarrollador Líder",
-        "company": "Fidelizapp",
+        "company": "Stampia",
         "period": "Jul 2025 – Presente",
         "summary": [
           "Desarrollé app de fidelización con administrador React y microservicios NestJS.",
           "Diseñé esquema MySQL con TypeORM, implementé redención QR e integración con Google OAuth.",
-          "Sitio web: fidelizapp.luciano-yomayel.com"
+          "Sitio web: stampia.app"
         ]
       },
       {

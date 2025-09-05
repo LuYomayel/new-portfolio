@@ -28,12 +28,12 @@
     "items": [
       {
         "role": "Lead Developer",
-        "company": "Fidelizapp",
+        "company": "Stampia",
         "period": "Jul 2025 – Present",
         "summary": [
           "Built loyalty app with React admin and NestJS microservices.",
           "Designed MySQL schema with TypeORM, implemented QR redemption and Google OAuth integration.",
-          "Website: fidelizapp.luciano-yomayel.com"
+          "Website: stampia.app"
         ]
       },
       {
@@ -135,9 +135,9 @@
     "title": "Personal Projects",
     "items": [
       {
-        "name": "Fidelizapp",
+        "name": "Stampia",
         "description": "Loyalty app with React admin and NestJS microservices",
-        "url": "https://fidelizapp.luciano-yomayel.com",
+        "url": "https://stampia.app",
         "tech": ["React", "NestJS", "MySQL", "TypeORM"]
       },
       {

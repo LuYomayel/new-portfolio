@@ -194,7 +194,7 @@ export default function Portfolio() {
       about: {
         title: "Acerca de mí",
         summary:
-          "Desarrollador full-stack con más de 4 años de experiencia entregando aplicaciones web y móviles escalables usando React, Next.js, NestJS y AWS. Experto en plataformas SaaS, arquitectura limpia e integraciones de IA. Buscando nuevas oportunidades en Argentina.",
+          "Desarrollador full-stack con más de 3 años de experiencia entregando aplicaciones web y móviles escalables usando React, Next.js, NestJS y AWS. Experto en plataformas SaaS, arquitectura limpia e integraciones de IA. Buscando nuevas oportunidades en Argentina.",
         email: "l.yomayel@gmail.com",
         phone: "+54 9 11 7239 4519",
         location: "Buenos Aires, Argentina",
@@ -204,12 +204,12 @@ export default function Portfolio() {
         items: [
           {
             role: "Desarrollador Líder",
-            company: "Fidelizapp",
+            company: "Stampia",
             period: "Jul 2025 – Presente",
             summary: [
               "Desarrollé app de fidelización con panel React y microservicios NestJS.",
               "Diseñé el esquema MySQL con TypeORM, implementé canje por QR e integración con Google OAuth.",
-              "Sitio web: fidelizapp.luciano-yomayel.com",
+              "Sitio web: stampia.app",
             ],
           },
           {
@@ -333,15 +333,15 @@ export default function Portfolio() {
             logo: "/qualityblinds-logo.webp",
           },
           {
-            name: "Fidelizapp",
-            description: "Customer loyalty platform with AI integration",
+            name: "Stampia",
+            description: "Plataforma de fidelización",
             tech: ["Next.js", "NestJS", "PostgreSQL", "AWS"],
-            url: "https://fidelizapp.luciano-yomayel.com",
-            logo: "/fidelizapp-logo.png",
+            url: "https://stampia.app",
+            logo: "/stampia-logo.png",
           },
           {
             name: "EaseTrain",
-            description: "Personalized online training platform",
+            description: "Plataforma de entrenamiento personalizado",
             url: "https://trainease.luciano-yomayel.com",
             tech: ["React", "Node.js", "MySQL", "Socket.io"],
             logo: "/easetrain-logo.png",
@@ -373,12 +373,12 @@ export default function Portfolio() {
         items: [
           {
             role: "Lead Developer",
-            company: "Fidelizapp",
+            company: "Stampia",
             period: "Jul 2025 – Present",
             summary: [
               "Built loyalty app with React admin and NestJS microservices.",
               "Designed MySQL schema with TypeORM, implemented QR redemption and Google OAuth integration.",
-              "Website: fidelizapp.luciano-yomayel.com",
+              "Website: stampia.app",
             ],
           },
           {
@@ -505,11 +505,11 @@ export default function Portfolio() {
             logo: "/qualityblinds-logo.webp",
           },
           {
-            name: "Fidelizapp",
-            description: "Customer loyalty platform with AI integration",
+            name: "Stampia",
+            description: "Customer loyalty platform",
             tech: ["Next.js", "NestJS", "PostgreSQL", "AWS"],
-            url: "https://fidelizapp.luciano-yomayel.com",
-            logo: "/fidelizapp-logo.png",
+            url: "https://stampia.app",
+            logo: "/stampia-logo.png",
           },
           {
             name: "EaseTrain",
