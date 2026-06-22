@@ -10,15 +10,15 @@
   },
   "header": {
     "name": "Luciano Yomayel",
-    "title": "Desarrollador Full-Stack MERN | Soluciones con IA",
-    "location": "Buenos Aires, Argentina",
+    "title": "Ingeniero Full-Stack con IA | LLMs en Producción",
+    "location": "Buenos Aires, Argentina · Remoto (USD)",
     "viewProject": "Ver Proyecto",
     "downloadCV": "Descargar CV",
     "languageSwitch": "Switch to English"
   },
   "about": {
     "title": "Sobre Mí",
-    "summary": "Desarrollador full-stack con más de 4 años de experiencia entregando aplicaciones web y móviles escalables usando React, Next.js, NestJS y AWS. Especializado en plataformas SaaS, arquitectura limpia e integraciones de IA. Buscando nuevas oportunidades en Argentina.",
+    "summary": "Ingeniero full-stack con más de 4 años construyendo productos SaaS escalables con TypeScript, React, Next.js y Node/NestJS. En el último año me enfoqué en llevar features con LLMs a producción: orquestación multi-agente, automatización asistida por IA y chatbots. Hoy construyo features de IA para una plataforma de Brand Protection que sirve a marcas Fortune 100, y curso una Ingeniería en IA. Abierto a roles 100% remotos (USD) para empresas del exterior.",
     "location": "Buenos Aires, Argentina",
     "phone": "+54 9 11 7239 4519",
     "email": "l.yomayel@gmail.com"
@@ -27,9 +27,19 @@
     "title": "Experiencia Laboral",
     "items": [
       {
+        "role": "Desarrollador Full-Stack",
+        "company": "Pulpou",
+        "period": "Feb 2026 – Presente",
+        "summary": [
+          "Construyo features de IA para un SaaS de Brand Protection que sirve a marcas Fortune 100.",
+          "Desarrollé un orquestador multi-agente de Claude propio y un generador de recetas de scraping con IA (Claude + Playwright MCP) que alimenta un pipeline de ~500k datos por semana.",
+          "Diseñé validación contra outputs alucinados y ruteo de costos entre modelos. Stack: Node.js, React, TypeScript, MongoDB, MySQL."
+        ]
+      },
+      {
         "role": "Desarrollador Líder",
         "company": "Stampia",
-        "period": "Jul 2025 – Presente",
+        "period": "Jun 2025 – Presente",
         "summary": [
           "Desarrollé app de fidelización con administrador React y microservicios NestJS.",
           "Diseñé esquema MySQL con TypeORM, implementé redención QR e integración con Google OAuth.",
@@ -39,17 +49,17 @@
       {
         "role": "Desarrollador Full-Stack",
         "company": "Quality Blinds Australia",
-        "period": "May 2025 – Presente",
+        "period": "May 2025 – Ago 2025",
         "summary": [
           "Migré sitio legacy a Next.js y optimicé SEO para el mercado australiano.",
-          "Desarrollé chatbot personalizado integrado con ChatGPT usando datos contextuales.",
+          "Desarrollé chatbot personalizado integrado con ChatGPT usando datos contextuales de la empresa.",
           "Implementé resúmenes automáticos de conversaciones por email usando ChatGPT."
         ]
       },
       {
         "role": "Desarrollador Full-Stack",
         "company": "EaseTrain",
-        "period": "Ene 2024 – May 2025",
+        "period": "May 2024 – Presente",
         "summary": [
           "Construí plataforma multi-tenant para entrenamiento fitness con planes de entrenamiento, progreso de clientes y subida de videos.",
           "Stack: React + PrimeReact, NestJS, MySQL, WebSockets, GCS, DigitalOcean.",
@@ -67,7 +77,7 @@
       {
         "role": "Desarrollador Full-Stack",
         "company": "Join Solutions",
-        "period": "Ene 2021 – Jul 2023",
+        "period": "Feb 2022 – May 2023",
         "summary": [
           "Lideré desarrollo de aplicaciones web usando Angular y NestJS.",
           "Construí APIs REST escalables con Express.js.",
@@ -95,13 +105,22 @@
       "other": "Otros"
     },
     "items": [
+      "TypeScript",
+      "OpenAI API",
+      "Claude API",
+      "LLMs",
+      "RAG",
+      "Prompt Engineering",
+      "Agentes de IA",
+      "Playwright MCP",
+      "Python",
       "React",
       "Next.js",
-      "Angular",
-      "Tailwind",
-      "PrimeReact",
       "NestJS",
       "Node.js",
+      "Express",
+      "Angular",
+      "Tailwind",
       "Prisma",
       "TypeORM",
       "MongoDB",
@@ -111,9 +130,7 @@
       "Google Cloud",
       "Docker",
       "PM2",
-      "JWT",
-      "Cypress",
-      "ChatGPT API"
+      "JWT"
     ]
   },
   "education": {
@@ -135,14 +152,14 @@
     "title": "Proyectos Personales",
     "items": [
       {
-        "name": "Fidelizapp",
+        "name": "Stampia",
         "description": "App de fidelización con administrador React y microservicios NestJS",
-        "url": "https://fidelizapp.luciano-yomayel.com",
+        "url": "https://stampia.app",
         "tech": ["React", "NestJS", "MySQL", "TypeORM"]
       },
       {
         "name": "Quality Blinds Australia",
-        "description": "Migración de sitio web a Next.js con integración de chatbot IA",
+        "description": "Migración de sitio web a Next.js con chatbot integrado con ChatGPT y resúmenes automáticos por email",
         "url": "https://qualityblinds.com.au",
         "tech": ["Next.js", "ChatGPT API", "React"],
         "hasBeforeAfter": true
@@ -164,7 +181,7 @@
   "contact": {
     "title": "Contacto",
     "subtitle": "Trabajemos juntos",
-    "description": "Siempre estoy abierto a discutir nuevas oportunidades y proyectos interesantes.",
+    "description": "Siempre estoy abierto a discutir nuevas oportunidades remotas y proyectos interesantes con IA.",
     "form": {
       "name": "Nombre",
       "email": "Email",
@@ -175,6 +192,6 @@
   "footer": {
     "languages": "Idiomas: Español (Nativo), Inglés (Fluido – 2 años en Australia)",
     "interests": "Intereses: Calistenia, Handball, IA, Viajes, Fotografía",
-    "rights": "© 2024 Luciano Yomayel. Todos los derechos reservados."
+    "rights": "© 2026 Luciano Yomayel. Todos los derechos reservados."
   }
 }

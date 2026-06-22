@@ -1,32 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import {
-  Github,
-  Linkedin,
-  Mail,
-  Phone,
-  MapPin,
-  ExternalLink,
-  Download,
-  Globe,
-  ChevronDown,
-  Menu,
-  X,
-  ArrowRight,
-  Code,
-  Database,
-  Server,
-  Cloud,
-  Shield,
-} from "lucide-react";
+import { useState } from "react";
 
-// TypeScript interfaces
 interface ExperienceItem {
   role: string;
   company: string;
   period: string;
+  current?: boolean;
   summary: string[];
 }
 
@@ -41,28 +21,465 @@ interface ProjectItem {
   description: string;
   tech: string[];
   url?: string;
-  hasBeforeAfter?: boolean;
-  logo?: string;
 }
 
+const SKILLS = [
+  "TypeScript",
+  "OpenAI API",
+  "Claude API",
+  "LLMs",
+  "RAG",
+  "Prompt Engineering",
+  "AI Agents",
+  "Playwright MCP",
+  "Python",
+  "React",
+  "Next.js",
+  "NestJS",
+  "Node.js",
+  "Express",
+  "Angular",
+  "Tailwind",
+  "Prisma",
+  "TypeORM",
+  "MongoDB",
+  "MySQL",
+  "PostgreSQL",
+  "AWS",
+  "Google Cloud",
+  "Docker",
+  "PM2",
+  "JWT",
+];
+const AI_SKILLS = 8; // first N are AI-flagged
+
+const TEXTS = {
+  en: {
+    nav: {
+      experience: "experience",
+      skills: "skills",
+      projects: "projects",
+      contact: "contact",
+    },
+    whoami: "whoami",
+    titleA: "AI-Enabled Full-Stack ",
+    titleAccent: "Engineer",
+    sub: "LLMs in production",
+    summary:
+      "Full-stack engineer with 4+ years building scalable SaaS products with TypeScript, React, Next.js, and Node/NestJS. Over the past year I've focused on shipping <strong>production LLM features</strong>: multi-agent orchestration, AI-assisted automation, and chatbots. Currently building AI features for a <strong>Brand Protection platform serving Fortune 100 global brands</strong>, while pursuing a B.Eng. in AI Engineering.",
+    chips: {
+      location: "Buenos Aires, Argentina",
+      remote: "Remote · USD",
+      open: "Open to work",
+    },
+    contactMe: "contact me",
+    downloadCV: "download cv",
+    secExperience: "work history",
+    secSkills: "AI-first, then the stack",
+    secProjects: "things I shipped",
+    now: "now",
+    current: "current",
+    experience: [
+      {
+        role: "Full-Stack Developer",
+        company: "Pulpou",
+        period: "Feb 2026 → now",
+        current: true,
+        summary: [
+          "Building AI features for a Brand Protection SaaS serving Fortune 100 global brands.",
+          "Built a custom Claude multi-agent orchestrator and an LLM-driven scraping recipe generator (Claude + Playwright MCP) feeding a ~500k data-points/week pipeline.",
+          "Designed validation harnesses against hallucinated outputs and cost routing across model tiers. Stack: Node.js, React, TypeScript, MongoDB, MySQL.",
+        ],
+      },
+      {
+        role: "Lead Developer",
+        company: "Stampia",
+        period: "Jun 2025 → now",
+        current: true,
+        summary: [
+          "Built a loyalty app with React admin and NestJS microservices.",
+          "Designed the MySQL schema with TypeORM; implemented QR redemption and Google OAuth.",
+        ],
+      },
+      {
+        role: "Full-Stack Developer",
+        company: "Quality Blinds (Sydney)",
+        period: "May 2025 → Aug 2025",
+        summary: [
+          "Migrated a legacy site to Next.js and optimized SEO for the Australian market.",
+          "Built a custom chatbot integrated with ChatGPT and automated email summaries of customer conversations.",
+        ],
+      },
+      {
+        role: "Full-Stack Developer",
+        company: "EaseTrain",
+        period: "May 2024 → now",
+        current: true,
+        summary: [
+          "Built a multi-tenant fitness coaching platform: training plans, client progress, video uploads.",
+          "Stack: React + PrimeReact, NestJS, MySQL, WebSockets, GCS. JWT auth, subscriptions, CI/CD with GitHub Actions + PM2.",
+        ],
+      },
+      {
+        role: "Full-Stack Developer",
+        company: "Join Solutions",
+        period: "Feb 2022 → May 2023",
+        summary: [
+          "Led development of web apps with Angular and NestJS; built scalable REST APIs with Express.",
+        ],
+      },
+    ] as ExperienceItem[],
+    education: [
+      {
+        title: "B.Eng. in Artificial Intelligence (in progress)",
+        institution: "University of Palermo",
+        period: "2024 → 2029",
+      },
+      {
+        title: "Diploma in Information Technology",
+        institution: "UTN Pacheco",
+        period: "2020 → 2022",
+      },
+    ] as EducationItem[],
+    projects: [
+      {
+        name: "Stampia",
+        description: "Loyalty app with React admin and NestJS microservices.",
+        tech: ["React", "NestJS", "MySQL", "TypeORM"],
+        url: "https://stampia.app",
+      },
+      {
+        name: "Quality Blinds",
+        description:
+          "Next.js migration with a ChatGPT-integrated chatbot and automated email summaries.",
+        tech: ["Next.js", "ChatGPT API", "React"],
+        url: "https://qualityblinds.com.au",
+      },
+      {
+        name: "EaseTrain",
+        description:
+          "Multi-tenant fitness coaching SaaS with real-time chat and video.",
+        tech: ["React", "NestJS", "MySQL", "WebSockets"],
+        url: "https://easetrain.app",
+      },
+      {
+        name: "Handball Stats",
+        description:
+          "Player statistics and fair-play tables. Reached 10k+ monthly visits.",
+        tech: ["React", "Node.js", "MongoDB"],
+        url: "https://handball-metropolitano.luciano-yomayel.com",
+      },
+    ] as ProjectItem[],
+    contactTitle: "Let's work together.",
+    contactCopy:
+      "Open to 100% remote roles (USD) with companies worldwide. Always up for an interesting AI project.",
+    footerLangs:
+      "Languages: Spanish (native), English (fluent — 2 years in Sydney, Australia)",
+    footerRights: "built from scratch",
+  },
+  es: {
+    nav: {
+      experience: "experiencia",
+      skills: "skills",
+      projects: "proyectos",
+      contact: "contacto",
+    },
+    whoami: "whoami",
+    titleA: "Ingeniero Full-Stack con ",
+    titleAccent: "IA",
+    sub: "LLMs en producción",
+    summary:
+      "Ingeniero full-stack con más de 4 años construyendo productos SaaS escalables con TypeScript, React, Next.js y Node/NestJS. En el último año me enfoqué en llevar <strong>features con LLMs a producción</strong>: orquestación multi-agente, automatización asistida por IA y chatbots. Hoy construyo features de IA para una <strong>plataforma de Brand Protection que sirve a marcas Fortune 100</strong>, y curso una Ingeniería en IA.",
+    chips: {
+      location: "Buenos Aires, Argentina",
+      remote: "Remoto · USD",
+      open: "Disponible",
+    },
+    contactMe: "contactar",
+    downloadCV: "descargar cv",
+    secExperience: "historial laboral",
+    secSkills: "IA primero, luego el stack",
+    secProjects: "cosas que construí",
+    now: "hoy",
+    current: "actual",
+    experience: [
+      {
+        role: "Desarrollador Full-Stack",
+        company: "Pulpou",
+        period: "Feb 2026 → hoy",
+        current: true,
+        summary: [
+          "Construyo features de IA para un SaaS de Brand Protection que sirve a marcas Fortune 100.",
+          "Desarrollé un orquestador multi-agente de Claude propio y un generador de recetas de scraping con IA (Claude + Playwright MCP) que alimenta un pipeline de ~500k datos por semana.",
+          "Diseñé validación contra outputs alucinados y ruteo de costos entre modelos. Stack: Node.js, React, TypeScript, MongoDB, MySQL.",
+        ],
+      },
+      {
+        role: "Desarrollador Líder",
+        company: "Stampia",
+        period: "Jun 2025 → hoy",
+        current: true,
+        summary: [
+          "Desarrollé app de fidelización con administrador React y microservicios NestJS.",
+          "Diseñé el esquema MySQL con TypeORM; implementé redención QR e integración con Google OAuth.",
+        ],
+      },
+      {
+        role: "Desarrollador Full-Stack",
+        company: "Quality Blinds (Sídney)",
+        period: "May 2025 → Ago 2025",
+        summary: [
+          "Migré un sitio legacy a Next.js y optimicé SEO para el mercado australiano.",
+          "Desarrollé un chatbot integrado con ChatGPT y resúmenes automáticos de conversaciones por email.",
+        ],
+      },
+      {
+        role: "Desarrollador Full-Stack",
+        company: "EaseTrain",
+        period: "May 2024 → hoy",
+        current: true,
+        summary: [
+          "Construí una plataforma multi-tenant para coaching fitness: planes, progreso de clientes, subida de videos.",
+          "Stack: React + PrimeReact, NestJS, MySQL, WebSockets, GCS. Auth JWT, suscripciones, CI/CD con GitHub Actions + PM2.",
+        ],
+      },
+      {
+        role: "Desarrollador Full-Stack",
+        company: "Join Solutions",
+        period: "Feb 2022 → May 2023",
+        summary: [
+          "Lideré el desarrollo de apps web con Angular y NestJS; construí APIs REST escalables con Express.",
+        ],
+      },
+    ] as ExperienceItem[],
+    education: [
+      {
+        title: "Ingeniería en Inteligencia Artificial (en progreso)",
+        institution: "Universidad de Palermo",
+        period: "2024 → 2029",
+      },
+      {
+        title: "Diplomatura en Tecnología de la Información",
+        institution: "UTN Pacheco",
+        period: "2020 → 2022",
+      },
+    ] as EducationItem[],
+    projects: [
+      {
+        name: "Stampia",
+        description:
+          "App de fidelización con administrador React y microservicios NestJS.",
+        tech: ["React", "NestJS", "MySQL", "TypeORM"],
+        url: "https://stampia.app",
+      },
+      {
+        name: "Quality Blinds",
+        description:
+          "Migración a Next.js con chatbot integrado con ChatGPT y resúmenes automáticos por email.",
+        tech: ["Next.js", "ChatGPT API", "React"],
+        url: "https://qualityblinds.com.au",
+      },
+      {
+        name: "EaseTrain",
+        description:
+          "SaaS multi-tenant de coaching fitness con chat en tiempo real y video.",
+        tech: ["React", "NestJS", "MySQL", "WebSockets"],
+        url: "https://easetrain.app",
+      },
+      {
+        name: "Handball Stats",
+        description:
+          "Estadísticas de jugadores y tablas de fair play. Alcanzó 10k+ visitas mensuales.",
+        tech: ["React", "Node.js", "MongoDB"],
+        url: "https://handball-metropolitano.luciano-yomayel.com",
+      },
+    ] as ProjectItem[],
+    contactTitle: "Trabajemos juntos.",
+    contactCopy:
+      "Abierto a roles 100% remotos (USD) para empresas del exterior. Siempre listo para un proyecto interesante con IA.",
+    footerLangs:
+      "Idiomas: Español (nativo), Inglés (fluido — 2 años en Sídney, Australia)",
+    footerRights: "hecho desde cero",
+  },
+};
+
+const CSS = `
+.term-root {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #161616;
+  --border: #242424;
+  --border-bright: #333333;
+  --text: #e8e8e8;
+  --text-dim: #8a8a8a;
+  --text-faint: #5a5a5a;
+  --accent: oklch(0.86 0.21 128);
+  --accent-dim: oklch(0.7 0.16 128);
+  --cyan: oklch(0.82 0.13 210);
+  --amber: oklch(0.84 0.15 75);
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --sans: "Geist", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, oklch(0.86 0.21 128 / 0.06), transparent),
+    linear-gradient(transparent 0, transparent calc(100% - 1px), #ffffff05 100%);
+  background-size: 100% 100%, 100% 3px;
+  scroll-behavior: smooth;
+}
+.term-root * { margin: 0; padding: 0; box-sizing: border-box; }
+.term-root .wrap { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+
+.term-root .topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: oklch(0.16 0 0 / 0.72);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.term-root .topbar-inner {
+  max-width: 920px; margin: 0 auto; padding: 12px 24px;
+  display: flex; align-items: center; gap: 16px;
+  font-family: var(--mono); font-size: 13px;
+}
+.term-root .dots { display: flex; gap: 7px; }
+.term-root .dot { width: 11px; height: 11px; border-radius: 50%; }
+.term-root .dot.r { background: #ff5f56; }
+.term-root .dot.y { background: #ffbd2e; }
+.term-root .dot.g { background: #27c93f; }
+.term-root .topbar-title { color: var(--text-dim); flex: 1; }
+.term-root .topbar-title b { color: var(--text); font-weight: 500; }
+.term-root .nav { display: flex; gap: 4px; }
+.term-root .nav a {
+  color: var(--text-dim); text-decoration: none;
+  padding: 4px 10px; border-radius: 6px;
+  transition: color .15s, background .15s;
+}
+.term-root .nav a:hover { color: var(--accent); background: var(--surface-2); }
+.term-root .lang {
+  color: var(--text-faint); background: none;
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 4px 10px; font-family: var(--mono); font-size: 12px;
+  cursor: pointer; transition: border-color .15s, color .15s;
+}
+.term-root .lang:hover { color: var(--accent); border-color: var(--border-bright); }
+.term-root .lang b { color: var(--text); }
+.term-root .lang .k { color: var(--text-faint); }
+
+.term-root .hero { padding: 80px 0 56px; }
+.term-root .prompt-line { font-family: var(--mono); font-size: 14px; color: var(--text-dim); margin-bottom: 28px; }
+.term-root .prompt-line .user { color: var(--accent); }
+.term-root .prompt-line .path { color: var(--cyan); }
+.term-root .cursor {
+  display: inline-block; width: 9px; height: 17px;
+  background: var(--accent); vertical-align: text-bottom;
+  margin-left: 3px; animation: term-blink 1.1s steps(1) infinite;
+}
+@keyframes term-blink { 50% { opacity: 0; } }
+
+.term-root h1 {
+  font-family: var(--sans); font-size: clamp(34px, 6vw, 58px);
+  font-weight: 600; line-height: 1.05; letter-spacing: -0.02em;
+  margin-bottom: 18px; text-wrap: balance;
+}
+.term-root h1 .accent { color: var(--accent); }
+.term-root .hero-sub { font-family: var(--mono); font-size: clamp(14px, 2.2vw, 17px); color: var(--text-dim); margin-bottom: 28px; }
+.term-root .hero-sub .arrow { color: var(--accent); }
+.term-root .hero-summary { font-size: 17px; color: var(--text-dim); max-width: 660px; margin-bottom: 32px; line-height: 1.7; text-wrap: pretty; }
+.term-root .hero-summary strong { color: var(--text); font-weight: 500; }
+
+.term-root .hero-meta { display: flex; flex-wrap: wrap; gap: 10px 14px; font-family: var(--mono); font-size: 13px; margin-bottom: 36px; }
+.term-root .chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 12px; border: 1px solid var(--border);
+  border-radius: 7px; background: var(--surface); color: var(--text-dim);
+}
+.term-root .chip .led { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+.term-root .chip .led.amber { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+
+.term-root .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.term-root .btn {
+  font-family: var(--mono); font-size: 13px; text-decoration: none;
+  padding: 11px 18px; border-radius: 8px; border: none; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: transform .12s, background .15s, border-color .15s, color .15s;
+}
+.term-root .btn:hover { transform: translateY(-2px); }
+.term-root .btn.primary { background: var(--accent); color: #0a0a0a; font-weight: 700; }
+.term-root .btn.primary:hover { background: var(--accent-dim); }
+.term-root .btn.ghost { border: 1px solid var(--border-bright); color: var(--text); background: none; }
+.term-root .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+.term-root section { padding: 44px 0; border-top: 1px solid var(--border); }
+.term-root .sec-cmd { font-family: var(--mono); font-size: 14px; color: var(--text-dim); margin-bottom: 30px; }
+.term-root .sec-cmd .sigil { color: var(--accent); margin-right: 8px; }
+.term-root .sec-cmd .cmd { color: var(--text); }
+.term-root .sec-cmd .flag { color: var(--amber); }
+.term-root .sec-cmd .out { color: var(--text-faint); margin-left: 10px; }
+
+.term-root .exp-item { display: grid; grid-template-columns: 160px 1fr; gap: 22px; padding: 22px 0; border-bottom: 1px solid var(--border); }
+.term-root .exp-item:last-child { border-bottom: none; }
+.term-root .exp-period { font-family: var(--mono); font-size: 12.5px; color: var(--text-faint); padding-top: 3px; }
+.term-root .exp-period .now { color: var(--accent); }
+.term-root .exp-role { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 2px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.term-root .exp-co { font-family: var(--mono); font-size: 13px; color: var(--accent); }
+.term-root .exp-bullets { list-style: none; margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+.term-root .exp-bullets li { position: relative; padding-left: 20px; font-size: 15px; color: var(--text-dim); line-height: 1.6; text-wrap: pretty; }
+.term-root .exp-bullets li::before { content: "\\203A"; position: absolute; left: 2px; color: var(--accent-dim); }
+.term-root .badge-current { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); border: 1px solid var(--accent-dim); border-radius: 5px; padding: 1px 7px; }
+
+.term-root .skills-grid { display: flex; flex-wrap: wrap; gap: 9px; }
+.term-root .skill { font-family: var(--mono); font-size: 13px; padding: 7px 13px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); color: var(--text-dim); transition: color .15s, border-color .15s, transform .12s; }
+.term-root .skill:hover { color: var(--accent); border-color: var(--accent-dim); transform: translateY(-2px); }
+.term-root .skill.ai { color: var(--text); border-color: var(--border-bright); }
+.term-root .skill.ai::before { content: "\\25B8 "; color: var(--accent); }
+
+.term-root .proj-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.term-root .proj { display: block; text-decoration: none; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); padding: 20px; transition: border-color .15s, transform .14s, background .15s; }
+.term-root .proj:hover { border-color: var(--accent-dim); transform: translateY(-3px); background: var(--surface-2); }
+.term-root .proj-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.term-root .proj-name { font-size: 17px; font-weight: 600; color: var(--text); }
+.term-root .proj-arrow { font-family: var(--mono); color: var(--text-faint); transition: color .15s, transform .15s; }
+.term-root .proj:hover .proj-arrow { color: var(--accent); transform: translate(2px, -2px); }
+.term-root .proj-desc { font-size: 14px; color: var(--text-dim); margin-bottom: 14px; line-height: 1.55; text-wrap: pretty; }
+.term-root .proj-tech { display: flex; flex-wrap: wrap; gap: 6px; }
+.term-root .proj-tech span { font-family: var(--mono); font-size: 11px; color: var(--text-faint); border: 1px solid var(--border); border-radius: 5px; padding: 2px 7px; }
+
+.term-root .edu-item { display: grid; grid-template-columns: 160px 1fr; gap: 22px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+.term-root .edu-item:last-child { border-bottom: none; }
+.term-root .edu-period { font-family: var(--mono); font-size: 12.5px; color: var(--text-faint); padding-top: 2px; }
+.term-root .edu-title { font-size: 16px; font-weight: 500; color: var(--text); }
+.term-root .edu-inst { font-family: var(--mono); font-size: 13px; color: var(--text-dim); margin-top: 2px; }
+
+.term-root .contact h2 { font-size: clamp(26px, 4vw, 38px); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 14px; }
+.term-root .contact p { color: var(--text-dim); margin-bottom: 26px; max-width: 540px; }
+.term-root .contact-links { display: flex; flex-wrap: wrap; gap: 12px; }
+.term-root .clink { font-family: var(--mono); font-size: 13px; text-decoration: none; color: var(--text-dim); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; display: inline-flex; gap: 8px; align-items: center; transition: color .15s, border-color .15s, transform .12s; }
+.term-root .clink:hover { color: var(--accent); border-color: var(--accent-dim); transform: translateY(-2px); }
+.term-root .clink .k { color: var(--text-faint); }
+
+.term-root footer { border-top: 1px solid var(--border); padding: 28px 0 56px; font-family: var(--mono); font-size: 12px; color: var(--text-faint); display: flex; flex-direction: column; gap: 6px; }
+
+@media (max-width: 680px) {
+  .term-root .nav { display: none; }
+  .term-root .exp-item, .term-root .edu-item { grid-template-columns: 1fr; gap: 8px; }
+  .term-root .exp-period, .term-root .edu-period { padding-top: 0; }
+  .term-root .proj-grid { grid-template-columns: 1fr; }
+  .term-root .hero { padding: 56px 0 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .term-root .cursor { animation: none; }
+  .term-root { scroll-behavior: auto; }
+}
+`;
+
 export default function Portfolio() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
-  const [showBeforeAfter, setShowBeforeAfter] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [language, setLanguage] = useState("es");
-
-  const toggleLanguage = () => {
-    setLanguage(language === "es" ? "en" : "es");
-  };
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsMenuOpen(false);
-  };
+  const [language, setLanguage] = useState<"en" | "es">("en");
+  const t = TEXTS[language];
 
   const handleDownloadCV = () => {
     const link = document.createElement("a");
@@ -71,1025 +488,228 @@ export default function Portfolio() {
     link.click();
   };
 
-  const handleContactSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const name = formData.get("name");
-    const email = formData.get("email");
-    const message = formData.get("message");
-
-    const mailtoLink = `mailto:l.yomayel@gmail.com?subject=Contacto desde Portfolio - ${name}&body=De: ${name}%0AEmail: ${email}%0A%0AMensaje:%0A${message}`;
-    window.location.href = mailtoLink;
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = [
-        "home",
-        "about",
-        "experience",
-        "skills",
-        "education",
-        "projects",
-        "contact",
-      ];
-      const scrollPosition = window.scrollY + 100;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const offsetBottom = offsetTop + element.offsetHeight;
-
-          if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const skills = [
-    {
-      name: "React",
-      icon: <Code className="w-6 h-6" />,
-      color: "from-blue-400 to-blue-600",
-    },
-    {
-      name: "Next.js",
-      icon: <Code className="w-6 h-6" />,
-      color: "from-gray-800 to-black",
-    },
-    {
-      name: "Angular",
-      icon: <Code className="w-6 h-6" />,
-      color: "from-red-400 to-red-600",
-    },
-    {
-      name: "Node.js",
-      icon: <Server className="w-6 h-6" />,
-      color: "from-green-400 to-green-600",
-    },
-    {
-      name: "NestJS",
-      icon: <Server className="w-6 h-6" />,
-      color: "from-red-500 to-red-700",
-    },
-    {
-      name: "MongoDB",
-      icon: <Database className="w-6 h-6" />,
-      color: "from-green-400 to-green-600",
-    },
-    {
-      name: "PostgreSQL",
-      icon: <Database className="w-6 h-6" />,
-      color: "from-blue-400 to-blue-600",
-    },
-    {
-      name: "AWS",
-      icon: <Cloud className="w-6 h-6" />,
-      color: "from-orange-400 to-orange-600",
-    },
-    {
-      name: "TypeScript",
-      icon: <Code className="w-6 h-6" />,
-      color: "from-blue-500 to-blue-700",
-    },
-    {
-      name: "JWT",
-      icon: <Shield className="w-6 h-6" />,
-      color: "from-gray-600 to-gray-800",
-    },
-  ];
-
-  const navigationItems = [
-    { key: "home", label: language === "es" ? "Inicio" : "Home" },
-    { key: "about", label: language === "es" ? "Acerca de" : "About" },
-    {
-      key: "experience",
-      label: language === "es" ? "Experiencia" : "Experience",
-    },
-    { key: "skills", label: language === "es" ? "Habilidades" : "Skills" },
-    { key: "education", label: language === "es" ? "Educación" : "Education" },
-    { key: "projects", label: language === "es" ? "Proyectos" : "Projects" },
-    { key: "contact", label: language === "es" ? "Contacto" : "Contact" },
-  ];
-
-  const texts = {
-    es: {
-      name: "Luciano Yomayel",
-      title: "Desarrollador Full-Stack MERN | Soluciones Habilitadas por IA",
-      location: "Buenos Aires, Argentina",
-      phone: "+54 9 11 7239 4519",
-      email: "l.yomayel@gmail.com",
-      github: "https://github.com/LuYomayel",
-      linkedin: "https://www.linkedin.com/in/luciano-yomayel",
-      portfolio: "https://luciano-yomayel.com",
-      downloadCV: "Descargar CV",
-      viewProject: "Ver Proyecto",
-      about: {
-        title: "Acerca de mí",
-        summary:
-          "Desarrollador full-stack con más de 3 años de experiencia entregando aplicaciones web y móviles escalables usando React, Next.js, NestJS y AWS. Experto en plataformas SaaS, arquitectura limpia e integraciones de IA. Buscando nuevas oportunidades en Argentina.",
-        email: "l.yomayel@gmail.com",
-        phone: "+54 9 11 7239 4519",
-        location: "Buenos Aires, Argentina",
-      },
-      experience: {
-        title: "Experiencia",
-        items: [
-          {
-            role: "Desarrollador Líder",
-            company: "Stampia",
-            period: "Jul 2025 – Presente",
-            summary: [
-              "Desarrollé app de fidelización con panel React y microservicios NestJS.",
-              "Diseñé el esquema MySQL con TypeORM, implementé canje por QR e integración con Google OAuth.",
-              "Sitio web: stampia.app",
-            ],
-          },
-          {
-            role: "Desarrollador Full-Stack",
-            company: "Quality Blinds Australia",
-            period: "May 2025 – Presente",
-            summary: [
-              "Migré sitio legacy a Next.js y optimicé SEO para el mercado australiano.",
-              "Desarrollé chatbot personalizado integrado con ChatGPT usando datos contextuales.",
-              "Implementé resúmenes automáticos de conversaciones por email usando ChatGPT.",
-            ],
-          },
-          {
-            role: "Desarrollador Full-Stack",
-            company: "EaseTrain",
-            period: "Ene 2024 – May 2025",
-            summary: [
-              "Desarrollé plataforma multi-tenant de coaching fitness con planes, progreso y videos.",
-              "Stack: React + PrimeReact, NestJS, MySQL, WebSockets, GCS, DigitalOcean.",
-              "Implementé auth JWT, suscripciones y CI/CD con GitHub Actions y PM2.",
-            ],
-          },
-          {
-            role: "Freelancer",
-            company: "GJ Logística",
-            period: "Ago 2023 – Dic 2023",
-            summary: [
-              "Personalicé y configuré Dolibarr ERP para gestionar inventario, pedidos y logística.",
-            ],
-          },
-          {
-            role: "Desarrollador Full-Stack",
-            company: "Join Solutions",
-            period: "Ene 2021 – Jul 2023",
-            summary: [
-              "Lideré desarrollo de apps web con Angular y NestJS.",
-              "Construí APIs REST escalables con Express.js.",
-              "Implementé metodologías ágiles para entregas y colaboración.",
-            ],
-          },
-          {
-            role: "Proyecto Personal",
-            company: "Handball Statistics Web",
-            period: "May 2023 – Jun 2023",
-            summary: [
-              "Desarrollé sitio para mostrar estadísticas y tablas de fair play de handball.",
-              "Alcancé más de 10.000 visitas mensuales.",
-            ],
-          },
-        ],
-      },
-      skills: {
-        title: "Habilidades",
-        items: [
-          "React",
-          "Next.js",
-          "Angular",
-          "Tailwind",
-          "PrimeReact",
-          "NestJS",
-          "Node.js",
-          "Prisma",
-          "TypeORM",
-          "MongoDB",
-          "MySQL",
-          "PostgreSQL",
-          "AWS",
-          "Google Cloud",
-          "Docker",
-          "PM2",
-          "JWT",
-          "Cypress",
-          "ChatGPT API",
-        ],
-      },
-      education: {
-        title: "Educación",
-        items: [
-          {
-            title: "Ingeniería en Inteligencia Artificial (En curso)",
-            institution: "Universidad de Palermo",
-            period: "2024 – 2029",
-          },
-          {
-            title: "Diplomatura en Tecnología de la Información",
-            institution: "UTN Pacheco",
-            period: "2020 – 2022",
-          },
-        ],
-      },
-      languages: ["Español (Nativo)", "Inglés (Fluido – 2 años en Australia)"],
-      interests: ["Calistenia", "Handball", "IA", "Viajes", "Fotografía"],
-      contact: {
-        title: "Contacto",
-        subtitle: "¿Hablamos?",
-        description:
-          "Estoy disponible para nuevas oportunidades y proyectos interesantes",
-        form: {
-          name: "Nombre",
-          email: "Email",
-          message: "Mensaje",
-          send: "Enviar Mensaje",
-        },
-      },
-      footer: {
-        languages:
-          "Idiomas: Español (Nativo), Inglés (Fluido – 2 años en Australia)",
-        interests: "Intereses: Calistenia, Handball, IA, Viajes, Fotografía",
-        rights: "© 2024 Luciano Yomayel. Todos los derechos reservados.",
-      },
-      projects: {
-        title: "Proyectos",
-        items: [
-          {
-            name: "Quality Blinds Australia",
-            description:
-              "Aplicación web completa para gestión de inventario y ventas",
-            tech: ["React", "Node.js", "MongoDB", "Express"],
-            url: "https://qualityblinds.netlify.app/",
-            hasBeforeAfter: true,
-            logo: "/qualityblinds-logo.webp",
-          },
-          {
-            name: "Stampia",
-            description: "Plataforma de fidelización",
-            tech: ["Next.js", "NestJS", "PostgreSQL", "AWS"],
-            url: "https://stampia.app",
-            logo: "/stampia-logo.png",
-          },
-          {
-            name: "EaseTrain",
-            description: "Plataforma de entrenamiento personalizado",
-            url: "https://trainease.luciano-yomayel.com",
-            tech: ["React", "Node.js", "MySQL", "Socket.io"],
-            logo: "/easetrain-logo.png",
-          },
-        ],
-      },
-    },
-    en: {
-      name: "Luciano Yomayel",
-      title: "Full-Stack MERN Developer | AI-Enabled Solutions",
-      location: "Buenos Aires, Argentina",
-      phone: "+54 9 11 7239 4519",
-      email: "l.yomayel@gmail.com",
-      github: "https://github.com/LuYomayel",
-      linkedin: "https://www.linkedin.com/in/luciano-yomayel",
-      portfolio: "https://luciano-yomayel.com",
-      downloadCV: "Download CV",
-      viewProject: "View Project",
-      about: {
-        title: "About Me",
-        summary:
-          "Full-stack developer with 4+ years of experience delivering scalable web and mobile apps using React, Next.js, NestJS, and AWS. Skilled in SaaS platforms, clean architecture, and AI integrations. Looking for new opportunities in Argentina.",
-        email: "l.yomayel@gmail.com",
-        phone: "+54 9 11 7239 4519",
-        location: "Buenos Aires, Argentina",
-      },
-      experience: {
-        title: "Experience",
-        items: [
-          {
-            role: "Lead Developer",
-            company: "Stampia",
-            period: "Jul 2025 – Present",
-            summary: [
-              "Built loyalty app with React admin and NestJS microservices.",
-              "Designed MySQL schema with TypeORM, implemented QR redemption and Google OAuth integration.",
-              "Website: stampia.app",
-            ],
-          },
-          {
-            role: "Full-Stack Developer",
-            company: "Quality Blinds Australia",
-            period: "May 2025 – Present",
-            summary: [
-              "Migrated legacy site to Next.js and optimized SEO for the Australian market.",
-              "Developed custom chatbot integrated with ChatGPT using contextual data.",
-              "Implemented automated email summaries of conversations using ChatGPT.",
-            ],
-          },
-          {
-            role: "Full-Stack Developer",
-            company: "EaseTrain",
-            period: "Jan 2024 – May 2025",
-            summary: [
-              "Built a multi-tenant fitness coaching platform with training plans, client progress, and video uploads.",
-              "Stack: React + PrimeReact, NestJS, MySQL, WebSockets, GCS, DigitalOcean.",
-              "Implemented JWT auth, subscription flow, and CI/CD with GitHub Actions and PM2.",
-            ],
-          },
-          {
-            role: "Freelancer",
-            company: "GJ Logística",
-            period: "Aug 2023 – Dec 2023",
-            summary: [
-              "Customized and configured Dolibarr ERP to manage inventory, orders and logistics.",
-            ],
-          },
-          {
-            role: "Full-Stack Developer",
-            company: "Join Solutions",
-            period: "Jan 2021 – Jul 2023",
-            summary: [
-              "Led development of web apps using Angular and NestJS.",
-              "Built scalable REST APIs with Express.js.",
-              "Implemented Agile methodologies for client delivery and collaboration.",
-            ],
-          },
-          {
-            role: "Personal Project",
-            company: "Handball Statistics Web",
-            period: "May 2023 – Jun 2023",
-            summary: [
-              "Developed a site to show handball stats and fair play tables.",
-              "Reached over 10,000 monthly visits.",
-            ],
-          },
-        ],
-      },
-      skills: {
-        title: "Skills",
-        items: [
-          "React",
-          "Next.js",
-          "Angular",
-          "Tailwind",
-          "PrimeReact",
-          "NestJS",
-          "Node.js",
-          "Prisma",
-          "TypeORM",
-          "MongoDB",
-          "MySQL",
-          "PostgreSQL",
-          "AWS",
-          "Google Cloud",
-          "Docker",
-          "PM2",
-          "JWT",
-          "Cypress",
-          "ChatGPT API",
-        ],
-      },
-      education: {
-        title: "Education",
-        items: [
-          {
-            title: "B.Eng. in Artificial Intelligence (In progress)",
-            institution: "University of Palermo",
-            period: "2024 – 2029",
-          },
-          {
-            title: "Diploma in Information Technology",
-            institution: "UTN Pacheco",
-            period: "2020 – 2022",
-          },
-        ],
-      },
-      languages: [
-        "Spanish (Native)",
-        "English (Fluent – 2 years in Australia)",
-      ],
-      interests: ["Calisthenics", "Handball", "AI", "Travel", "Photography"],
-      contact: {
-        title: "Contact",
-        subtitle: "Let's talk?",
-        description:
-          "I'm available for new opportunities and interesting projects",
-        form: {
-          name: "Name",
-          email: "Email",
-          message: "Message",
-          send: "Send Message",
-        },
-      },
-      footer: {
-        languages:
-          "Languages: Spanish (Native), English (Fluent – 2 years in Australia)",
-        interests: "Interests: Calisthenics, Handball, AI, Travel, Photography",
-        rights: "© 2024 Luciano Yomayel. All rights reserved.",
-      },
-      projects: {
-        title: "Projects",
-        items: [
-          {
-            name: "Quality Blinds Australia",
-            description:
-              "Complete web application for inventory and sales management",
-            tech: ["React", "Node.js", "MongoDB", "Express"],
-            url: "https://qualityblinds.netlify.app/",
-            hasBeforeAfter: true,
-            logo: "/qualityblinds-logo.webp",
-          },
-          {
-            name: "Stampia",
-            description: "Customer loyalty platform",
-            tech: ["Next.js", "NestJS", "PostgreSQL", "AWS"],
-            url: "https://stampia.app",
-            logo: "/stampia-logo.png",
-          },
-          {
-            name: "EaseTrain",
-            description: "Personalized online training platform",
-            url: "https://trainease.luciano-yomayel.com",
-            tech: ["React", "Node.js", "MySQL", "Socket.io"],
-            logo: "/easetrain-logo.png",
-          },
-        ],
-      },
-    },
-  };
-
-  const t = texts[language as keyof typeof texts];
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="font-bold text-xl text-gray-900">{t.name}</div>
+    <div className="term-root" lang={language}>
+      <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
-              {navigationItems.map((item) => (
-                <button
-                  key={item.key}
-                  onClick={() => scrollToSection(item.key)}
-                  className={`text-sm font-medium transition-colors ${
-                    activeSection === item.key
-                      ? "text-blue-600"
-                      : "text-gray-700 hover:text-blue-600"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </nav>
-
-            {/* Language Toggle & Mobile Menu */}
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={toggleLanguage}
-                className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
-              >
-                <Globe className="w-4 h-4" />
-                <span>{language === "es" ? "EN" : "ES"}</span>
-              </button>
-
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-2 rounded-md text-gray-700 hover:text-blue-600 transition-colors"
-              >
-                {isMenuOpen ? (
-                  <X className="w-5 h-5" />
-                ) : (
-                  <Menu className="w-5 h-5" />
-                )}
-              </button>
-            </div>
+      <div className="topbar">
+        <div className="topbar-inner">
+          <div className="dots">
+            <span className="dot r"></span>
+            <span className="dot y"></span>
+            <span className="dot g"></span>
           </div>
+          <div className="topbar-title">
+            <b>luciano@yomayel</b>: ~/portfolio
+          </div>
+          <nav className="nav">
+            <a href="#experience">{t.nav.experience}</a>
+            <a href="#skills">{t.nav.skills}</a>
+            <a href="#projects">{t.nav.projects}</a>
+            <a href="#contact">{t.nav.contact}</a>
+          </nav>
+          <button
+            className="lang"
+            onClick={() => setLanguage(language === "en" ? "es" : "en")}
+            aria-label="Toggle language"
+          >
+            <b>{language === "en" ? "EN" : "ES"}</b>
+            <span className="k">/</span>
+            <span>{language === "en" ? "es" : "en"}</span>
+          </button>
         </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-white border-t">
-            <nav className="px-4 py-2 space-y-2">
-              {navigationItems.map((item) => (
-                <button
-                  key={item.key}
-                  onClick={() => scrollToSection(item.key)}
-                  className={`block w-full text-left px-3 py-2 text-sm font-medium transition-colors ${
-                    activeSection === item.key
-                      ? "text-blue-600 bg-blue-50"
-                      : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </nav>
+      <main className="wrap">
+        {/* HERO */}
+        <header className="hero">
+          <div className="prompt-line">
+            <span className="user">luciano@yomayel</span>:
+            <span className="path">~</span>$ {t.whoami}
+            <span className="cursor"></span>
           </div>
-        )}
-      </header>
-
-      {/* Hero Section */}
-      <section
-        id="home"
-        className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-blue-50 to-indigo-100"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mb-8">
-            <Image
-              src="/foto.jpeg"
-              alt={t.name}
-              width={200}
-              height={200}
-              className="rounded-full mx-auto mb-8 shadow-2xl"
-            />
-          </div>
-
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 animate-fade-in">
-            {t.name}
+          <h1>
+            {t.titleA}
+            <span className="accent">{t.titleAccent}</span>
           </h1>
-
-          <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            {t.title}
+          <p className="hero-sub">
+            <span className="arrow">▸</span> {t.sub}
           </p>
-
-          <div className="flex items-center justify-center space-x-2 text-gray-500 mb-8">
-            <MapPin className="w-5 h-5" />
-            <span>{t.location}</span>
+          <p
+            className="hero-summary"
+            dangerouslySetInnerHTML={{ __html: t.summary }}
+          />
+          <div className="hero-meta">
+            <span className="chip">
+              <span className="led"></span> {t.chips.location}
+            </span>
+            <span className="chip">
+              <span className="led"></span> {t.chips.remote}
+            </span>
+            <span className="chip">
+              <span className="led amber"></span> {t.chips.open}
+            </span>
+            <span className="chip">
+              <span className="led"></span> EN / ES
+            </span>
           </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
-            >
-              <span>{t.contact.title}</span>
-              <ArrowRight className="w-4 h-4" />
+          <div className="cta-row">
+            <a className="btn primary" href="mailto:l.yomayel@gmail.com">
+              $ {t.contactMe}
+            </a>
+            <button className="btn ghost" onClick={handleDownloadCV}>
+              {t.downloadCV}
             </button>
-
-            <button
-              onClick={handleDownloadCV}
-              className="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2"
+            <a
+              className="btn ghost"
+              href="https://github.com/LuYomayel"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <Download className="w-4 h-4" />
-              <span>{t.downloadCV}</span>
-            </button>
+              github
+            </a>
+            <a
+              className="btn ghost"
+              href="https://www.linkedin.com/in/luciano-yomayel/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              linkedin
+            </a>
           </div>
-        </div>
+        </header>
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ChevronDown className="w-6 h-6 text-gray-400" />
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                {t.about.title}
-              </h2>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                {t.about.summary}
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex items-center space-x-3">
-                  <Mail className="w-5 h-5 text-blue-600" />
-                  <a
-                    href={`mailto:${t.about.email}`}
-                    className="text-gray-700 hover:text-blue-600 transition-colors"
-                  >
-                    {t.about.email}
-                  </a>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-blue-600" />
-                  <span className="text-gray-700">{t.about.phone}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="bg-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl p-8">
-                <Image
-                  src="/workspace.jpg"
-                  alt="Workspace"
-                  width={600}
-                  height={400}
-                  className="rounded-xl shadow-lg"
-                />
-              </div>
-            </div>
+        {/* EXPERIENCE */}
+        <section id="experience">
+          <div className="sec-cmd">
+            <span className="sigil">$</span>
+            <span className="cmd">cat</span> experience.log
+            <span className="out"># {t.secExperience}</span>
           </div>
-        </div>
-      </section>
-
-      {/* Experience Section */}
-      <section id="experience" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-            {t.experience.title}
-          </h2>
-
-          <div className="space-y-8">
-            {t.experience.items.map((job: ExperienceItem, index: number) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow"
-              >
-                <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900">
-                      {job.role}
-                    </h3>
-                    <p className="text-lg text-blue-600 font-medium">
-                      {job.company}
-                    </p>
-                  </div>
-                  <span className="text-sm text-gray-500 mt-2 md:mt-0">
-                    {job.period}
-                  </span>
+          {t.experience.map((job, i) => (
+            <div className="exp-item" key={i}>
+              <div className="exp-period">{job.period}</div>
+              <div>
+                <div className="exp-role">
+                  {job.role} <span className="exp-co">@ {job.company}</span>
+                  {job.current && (
+                    <span className="badge-current">{t.current}</span>
+                  )}
                 </div>
-
-                <ul className="space-y-2">
-                  {job.summary.map((item: string, itemIndex: number) => (
-                    <li
-                      key={itemIndex}
-                      className="text-gray-700 flex items-start"
-                    >
-                      <span className="text-blue-600 mr-2">•</span>
-                      <span>{item}</span>
-                    </li>
+                <ul className="exp-bullets">
+                  {job.summary.map((s, j) => (
+                    <li key={j}>{s}</li>
                   ))}
                 </ul>
               </div>
+            </div>
+          ))}
+        </section>
+
+        {/* SKILLS */}
+        <section id="skills">
+          <div className="sec-cmd">
+            <span className="sigil">$</span>
+            <span className="cmd">ls</span> <span className="flag">--skills</span>
+            <span className="out"># {t.secSkills}</span>
+          </div>
+          <div className="skills-grid">
+            {SKILLS.map((skill, i) => (
+              <span className={`skill${i < AI_SKILLS ? " ai" : ""}`} key={skill}>
+                {skill}
+              </span>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Skills Section */}
-      <section id="skills" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-            {t.skills.title}
-          </h2>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {skills.map((skill, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-gray-100"
+        {/* PROJECTS */}
+        <section id="projects">
+          <div className="sec-cmd">
+            <span className="sigil">$</span>
+            <span className="cmd">git</span> log{" "}
+            <span className="flag">--projects</span>
+            <span className="out"># {t.secProjects}</span>
+          </div>
+          <div className="proj-grid">
+            {t.projects.map((p, i) => (
+              <a
+                className="proj"
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                key={i}
               >
-                <div
-                  className={`w-12 h-12 rounded-lg mx-auto mb-4 flex items-center justify-center bg-gradient-to-r ${skill.color} text-white shadow-lg`}
-                >
-                  {skill.icon}
+                <div className="proj-head">
+                  <span className="proj-name">{p.name}</span>
+                  <span className="proj-arrow">↗</span>
                 </div>
-                <p className="text-sm font-semibold text-gray-700 text-center">
-                  {skill.name}
-                </p>
-              </div>
+                <p className="proj-desc">{p.description}</p>
+                <div className="proj-tech">
+                  {p.tech.map((tech) => (
+                    <span key={tech}>{tech}</span>
+                  ))}
+                </div>
+              </a>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Education Section */}
-      <section id="education" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-            {t.education.title}
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {t.education.items.map((edu: EducationItem, index: number) => (
-              <div key={index} className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {edu.title}
-                </h3>
-                <p className="text-blue-600 font-medium mb-1">
-                  {edu.institution}
-                </p>
-                <p className="text-gray-500 text-sm">{edu.period}</p>
-              </div>
-            ))}
+        {/* EDUCATION */}
+        <section id="education">
+          <div className="sec-cmd">
+            <span className="sigil">$</span>
+            <span className="cmd">cat</span> education.txt
           </div>
-        </div>
-      </section>
-
-      {/* Projects Section */}
-      <section id="projects" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-            {t.projects.title}
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {t.projects.items.map((project: ProjectItem, index: number) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-gray-100"
-              >
-                {/*<div className="relative h-48 bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center">
-                    <div className="text-center">
-                      <p className="text-gray-600 mb-2">Project Images</p>
-                      <button
-                        onClick={() => setShowBeforeAfter(true)}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors"
-                      >
-                        View Before/After
-                      </button>
-                    </div>
-                  </div>*/}
-                {project.logo && (
-                  <Image
-                    src={project.logo}
-                    alt={project.name}
-                    width={500}
-                    height={400}
-                  />
-                )}
-
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    {project.name}
-                  </h3>
-                  <p className="text-gray-600 mb-4">{project.description}</p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.map((tech: string, techIndex: number) => (
-                      <span
-                        key={techIndex}
-                        className="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  {project.url && (
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center space-x-2 text-blue-600 hover:text-blue-800 transition-colors"
-                    >
-                      <span>{t.viewProject}</span>
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section
-        id="contact"
-        className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              {t.contact.title}
-            </h2>
-            <p className="text-xl text-gray-600 mb-2">{t.contact.subtitle}</p>
-            <p className="text-gray-500">{t.contact.description}</p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div>
-              <div className="bg-white rounded-xl shadow-lg p-8">
-                <h3 className="text-xl font-semibold text-gray-900 mb-6">
-                  {t.contact.title}
-                </h3>
-
-                <div className="space-y-6">
-                  <div className="flex items-center space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-full">
-                      <Mail className="w-6 h-6 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Email</p>
-                      <a
-                        href={`mailto:${t.about.email}`}
-                        className="text-gray-900 hover:text-blue-600 transition-colors"
-                      >
-                        {t.about.email}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-full">
-                      <Phone className="w-6 h-6 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Phone</p>
-                      <span className="text-gray-900">{t.about.phone}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-full">
-                      <MapPin className="w-6 h-6 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Location</p>
-                      <span className="text-gray-900">{t.about.location}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-8 pt-8 border-t border-gray-200">
-                  <div className="flex space-x-4">
-                    <a
-                      href="https://github.com/LuYomayel"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-gray-100 p-3 rounded-full hover:bg-gray-200 transition-colors"
-                    >
-                      <Github className="w-6 h-6 text-gray-700" />
-                    </a>
-                    <a
-                      href="https://www.linkedin.com/in/luciano-yomayel"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-gray-100 p-3 rounded-full hover:bg-gray-200 transition-colors"
-                    >
-                      <Linkedin className="w-6 h-6 text-gray-700" />
-                    </a>
-                  </div>
-                </div>
+          {t.education.map((edu, i) => (
+            <div className="edu-item" key={i}>
+              <div className="edu-period">{edu.period}</div>
+              <div>
+                <div className="edu-title">{edu.title}</div>
+                <div className="edu-inst">{edu.institution}</div>
               </div>
             </div>
+          ))}
+        </section>
 
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <form onSubmit={handleContactSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    {t.contact.form.name}
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder={t.contact.form.name}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    {t.contact.form.email}
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder={t.contact.form.email}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    {t.contact.form.message}
-                  </label>
-                  <textarea
-                    name="message"
-                    rows={5}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder={t.contact.form.message}
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-                >
-                  {t.contact.form.send}
-                </button>
-              </form>
-            </div>
+        {/* CONTACT */}
+        <section id="contact" className="contact">
+          <div className="sec-cmd">
+            <span className="sigil">$</span>
+            <span className="cmd">./contact.sh</span>
           </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-xl font-semibold mb-4">{t.name}</h3>
-              <p className="text-gray-400 mb-4">{t.title}</p>
-              <p className="text-gray-400 text-sm">{t.footer.languages}</p>
-            </div>
-
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Interests</h4>
-              <p className="text-gray-400 text-sm">{t.footer.interests}</p>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-            <p className="text-gray-400 text-sm">{t.footer.rights}</p>
-          </div>
-        </div>
-      </footer>
-
-      {/* Before/After Modal */}
-      {showBeforeAfter && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-900">
-                  Quality Blinds Australia - Before/After
-                </h3>
-                <button
-                  onClick={() => setShowBeforeAfter(false)}
-                  className="text-gray-400 hover:text-gray-600"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="text-lg font-semibold mb-3 text-gray-900">
-                    Before
-                  </h4>
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => setSelectedImage("/before.png")}
-                  >
-                    <Image
-                      src="/before.png"
-                      alt="Before"
-                      width={500}
-                      height={400}
-                      className="rounded-lg shadow-lg hover:shadow-xl transition-shadow"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="text-lg font-semibold mb-3 text-gray-900">
-                    After
-                  </h4>
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => setSelectedImage("/after.png")}
-                  >
-                    <Image
-                      src="/after.png"
-                      alt="After"
-                      width={500}
-                      height={400}
-                      className="rounded-lg shadow-lg hover:shadow-xl transition-shadow"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Image Zoom Modal */}
-      {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
-          <div className="relative max-w-4xl max-h-[90vh] overflow-hidden">
-            <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
+          <h2>{t.contactTitle}</h2>
+          <p>{t.contactCopy}</p>
+          <div className="contact-links">
+            <a className="clink" href="mailto:l.yomayel@gmail.com">
+              <span className="k">email</span> l.yomayel@gmail.com
+            </a>
+            <a
+              className="clink"
+              href="https://github.com/LuYomayel"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <X className="w-8 h-8" />
-            </button>
-            <Image
-              src={selectedImage}
-              alt="Enlarged view"
-              width={800}
-              height={600}
-              className="rounded-lg max-w-full max-h-full object-contain"
-            />
+              <span className="k">github</span> LuYomayel
+            </a>
+            <a
+              className="clink"
+              href="https://www.linkedin.com/in/luciano-yomayel/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="k">linkedin</span> luciano-yomayel
+            </a>
+            <a className="clink" href="tel:+5491172394519">
+              <span className="k">tel</span> +54 9 11 7239 4519
+            </a>
           </div>
-        </div>
-      )}
+        </section>
+
+        <footer>
+          <div>{t.footerLangs}</div>
+          <div>© 2026 Luciano Yomayel · {t.footerRights}</div>
+        </footer>
+      </main>
     </div>
   );
 }

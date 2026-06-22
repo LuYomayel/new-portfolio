@@ -10,15 +10,15 @@
   },
   "header": {
     "name": "Luciano Yomayel",
-    "title": "Full-Stack MERN Developer | AI-Enabled Solutions",
-    "location": "Buenos Aires, Argentina",
+    "title": "AI-Enabled Full-Stack Engineer | LLMs in Production",
+    "location": "Buenos Aires, Argentina · Remote (USD)",
     "viewProject": "View Project",
     "downloadCV": "Download CV",
     "languageSwitch": "Cambiar a Español"
   },
   "about": {
     "title": "About Me",
-    "summary": "Full-stack developer with 4+ years of experience delivering scalable web and mobile apps using React, Next.js, NestJS, and AWS. Skilled in SaaS platforms, clean architecture, and AI integrations. Looking for new opportunities in Argentina.",
+    "summary": "Full-stack engineer with 4+ years building scalable SaaS products with TypeScript, React, Next.js, and Node/NestJS. Over the past year I've focused on shipping production LLM features: multi-agent orchestration, AI-assisted automation, and chatbots. I'm currently building AI features for a Brand Protection platform serving Fortune 100 global brands, while pursuing a B.Eng. in AI Engineering. Open to 100% remote roles (USD) with companies worldwide.",
     "location": "Buenos Aires, Argentina",
     "phone": "+54 9 11 7239 4519",
     "email": "l.yomayel@gmail.com"
@@ -27,9 +27,19 @@
     "title": "Work Experience",
     "items": [
       {
+        "role": "Full-Stack Developer",
+        "company": "Pulpou",
+        "period": "Feb 2026 – Present",
+        "summary": [
+          "Building AI features for a Brand Protection SaaS serving Fortune 100 global brands.",
+          "Built a custom Claude multi-agent orchestrator and an LLM-driven scraping recipe generator (Claude + Playwright MCP) feeding a ~500k data-points/week pipeline.",
+          "Designed validation harnesses against hallucinated outputs and cost routing across model tiers. Stack: Node.js, React, TypeScript, MongoDB, MySQL."
+        ]
+      },
+      {
         "role": "Lead Developer",
         "company": "Stampia",
-        "period": "Jul 2025 – Present",
+        "period": "Jun 2025 – Present",
         "summary": [
           "Built loyalty app with React admin and NestJS microservices.",
           "Designed MySQL schema with TypeORM, implemented QR redemption and Google OAuth integration.",
@@ -39,17 +49,17 @@
       {
         "role": "Full-Stack Developer",
         "company": "Quality Blinds Australia",
-        "period": "May 2025 – Present",
+        "period": "May 2025 – Aug 2025",
         "summary": [
           "Migrated legacy site to Next.js and optimized SEO for the Australian market.",
-          "Developed custom chatbot integrated with ChatGPT using contextual data.",
+          "Developed a custom chatbot integrated with ChatGPT using company context data.",
           "Implemented automated email summaries of conversations using ChatGPT."
         ]
       },
       {
         "role": "Full-Stack Developer",
         "company": "EaseTrain",
-        "period": "Jan 2024 – May 2025",
+        "period": "May 2024 – Present",
         "summary": [
           "Built a multi-tenant fitness coaching platform with training plans, client progress, and video uploads.",
           "Stack: React + PrimeReact, NestJS, MySQL, WebSockets, GCS, DigitalOcean.",
@@ -67,7 +77,7 @@
       {
         "role": "Full-Stack Developer",
         "company": "Join Solutions",
-        "period": "Jan 2021 – Jul 2023",
+        "period": "Feb 2022 – May 2023",
         "summary": [
           "Led development of web apps using Angular and NestJS.",
           "Built scalable REST APIs with Express.js.",
@@ -95,13 +105,22 @@
       "other": "Other"
     },
     "items": [
+      "TypeScript",
+      "OpenAI API",
+      "Claude API",
+      "LLMs",
+      "RAG",
+      "Prompt Engineering",
+      "AI Agents",
+      "Playwright MCP",
+      "Python",
       "React",
       "Next.js",
-      "Angular",
-      "Tailwind",
-      "PrimeReact",
       "NestJS",
       "Node.js",
+      "Express",
+      "Angular",
+      "Tailwind",
       "Prisma",
       "TypeORM",
       "MongoDB",
@@ -111,9 +130,7 @@
       "Google Cloud",
       "Docker",
       "PM2",
-      "JWT",
-      "Cypress",
-      "ChatGPT API"
+      "JWT"
     ]
   },
   "education": {
@@ -142,7 +159,7 @@
       },
       {
         "name": "Quality Blinds Australia",
-        "description": "Website migration to Next.js with AI chatbot integration",
+        "description": "Website migration to Next.js with a ChatGPT-integrated chatbot and automated email summaries",
         "url": "https://qualityblinds.com.au",
         "tech": ["Next.js", "ChatGPT API", "React"],
         "hasBeforeAfter": true
@@ -164,7 +181,7 @@
   "contact": {
     "title": "Contact Me",
     "subtitle": "Let's work together",
-    "description": "I'm always open to discussing new opportunities and interesting projects.",
+    "description": "I'm always open to discussing new remote opportunities and interesting AI projects.",
     "form": {
       "name": "Name",
       "email": "Email",
@@ -175,6 +192,6 @@
   "footer": {
     "languages": "Languages: Spanish (Native), English (Fluent – 2 years in Australia)",
     "interests": "Interests: Calisthenics, Handball, AI, Travel, Photography",
-    "rights": "© 2024 Luciano Yomayel. All rights reserved."
+    "rights": "© 2026 Luciano Yomayel. All rights reserved."
   }
 }
